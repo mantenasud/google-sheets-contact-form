@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Form</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+    /* ─── CONFIGURATION ─────────────────────────────────────────
+       Customise these variables to match your brand.
+    ──────────────────────────────────────────────────────────── */
+    :root {
+      --color-accent:       #B85C30;   /* Primary accent / button color   */
+      --color-text:         #1a1a1a;   /* Main text                       */
+      --color-text-muted:   #777;      /* Subtitles and labels            */
+      --color-text-light:   #555;      /* Body text                       */
+      --color-bg:           #ffffff;   /* Page background                 */
+      --color-bg-soft:      #f7f5f2;   /* Section background              */
+      --color-border:       #e8e5e0;   /* Borders                         */
+      --color-border-input: #d8d5d0;   /* Input borders                   */
+      --font-serif:         'Playfair Display', Georgia, serif;
+      --font-sans:          'DM Sans', system-ui, sans-serif;
+      --max-width:          640px;     /* Max width of the form container */
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 3rem 1rem;
+    }
+
+    .cf-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────── */
+    .cf-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .cf-heading {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .cf-subheading {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--color-text-light);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* ─── FORM ───────────────────────────────────────────────── */
+    .cf-form {
+      background: var(--color-bg-soft);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 2rem;
+    }
+
+    .cf-field {
+      margin-bottom: 1.25rem;
+    }
+
+    .cf-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .cf-field input,
+    .cf-field textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--color-text);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border-input);
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .cf-field input:focus,
+    .cf-field textarea:focus {
+      border-color: var(--color-accent);
+    }
+
+    .cf-field textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .cf-field .cf-optional {
+      font-size: 0.7rem;
+      font-weight: 300;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #aaa;
+      margin-left: 4px;
+    }
+
+    .cf-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      .cf-row { grid-template-columns: 1fr; }
+    }
+
+    /* ─── SUBMIT BUTTON ──────────────────────────────────────── */
+    .cf-submit {
+      width: 100%;
+      background: var(--color-accent);
+      color: #ffffff;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 2px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.15s;
+    }
+
+    .cf-submit:hover   { opacity: 0.88; }
+    .cf-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ─── FEEDBACK STATES ────────────────────────────────────── */
+    .cf-error {
+      display: none;
+      font-size: 0.82rem;
+      color: #c0392b;
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    .cf-success {
+      display: none;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    .cf-success-icon  {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .cf-success-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.4rem;
+    }
+
+    .cf-success-sub {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cf-container">
+
+    <!--
+      ─── HEADER TEXT ──────────────────────────────────────────
+      Edit the eyebrow, heading, and subheading below.
+    ──────────────────────────────────────────────────────────── -->
+    <p class="cf-eyebrow">Get in touch</p>
+    <h1 class="cf-heading">Let's talk about your business</h1>
+    <p class="cf-subheading">Fill in the form and we'll be in touch within 24 hours.</p>
+
+    <!--
+      ─── FORM ─────────────────────────────────────────────────
+      Fields: Name, Email, Phone, Website, Description.
+      Mark optional fields with the cf-optional span.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="cf-form">
+
+      <div class="cf-row">
+        <div class="cf-field">
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" placeholder="Your full name" required />
+        </div>
+        <div class="cf-field">
+          <label for="cf-email">Email address</label>
+          <input type="email" id="cf-email" placeholder="you@company.com" required />
+        </div>
+      </div>
+
+      <div class="cf-row">
+        <div class="cf-field">
+          <label for="cf-phone">Phone number <span class="cf-optional">(optional)</span></label>
+          <input type="tel" id="cf-phone" placeholder="+1 555 000 0000" />
+        </div>
+        <div class="cf-field">
+          <label for="cf-website">Company website <span class="cf-optional">(optional)</span></label>
+          <input type="url" id="cf-website" placeholder="https://yourcompany.com" />
+        </div>
+      </div>
+
+      <div class="cf-field">
+        <label for="cf-description">Message</label>
+        <textarea id="cf-description" placeholder="Tell us a bit about what you're looking for..."></textarea>
+      </div>
+
+      <button class="cf-submit" id="cf-submit">Send message →</button>
+      <p class="cf-error" id="cf-error">Something went wrong. Please try again.</p>
+
+    </div>
+
+    <div class="cf-success" id="cf-success">
+      <div class="cf-success-icon">✓</div>
+      <div class="cf-success-title">Message sent.</div>
+      <div class="cf-success-sub">We'll review your details and be in touch within 24 hours.</div>
+    </div>
+
+  </div>
+
+  <script>
+    /**
+     * ─── CONFIGURATION ─────────────────────────────────────────
+     * Replace SCRIPT_URL with your deployed Google Apps Script
+     * Web App URL. Get this from:
+     * Apps Script → Deploy → Manage deployments → copy URL
+     * ──────────────────────────────────────────────────────────
+     */
+    var SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+
+    document.getElementById('cf-submit').addEventListener('click', function() {
+      var btn     = this;
+      var name    = document.getElementById('cf-name').value.trim();
+      var email   = document.getElementById('cf-email').value.trim();
+      var phone   = document.getElementById('cf-phone').value.trim();
+      var website = document.getElementById('cf-website').value.trim();
+      var desc    = document.getElementById('cf-description').value.trim();
+      var errorEl = document.getElementById('cf-error');
+
+      errorEl.style.display = 'none';
+
+      if (!name || !email) {
+        errorEl.textContent = 'Please fill in your name and email.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Sending...';
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          name:        name,
+          email:       email,
+          phone:       phone,
+          website:     website,
+          description: desc
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.result === 'success') {
+          document.querySelector('.cf-form').style.display = 'none';
+          document.querySelector('.cf-subheading').style.display = 'none';
+          document.getElementById('cf-success').style.display = 'block';
+        } else {
+          throw new Error('unexpected');
+        }
+      })
+      .catch(function() {
+        errorEl.textContent = 'Something went wrong. Please try again.';
+        errorEl.style.display = 'block';
+        btn.disabled    = false;
+        btn.textContent = 'Send message →';
+      });
+    });
+  </script>
+
+</body>
+</html>
